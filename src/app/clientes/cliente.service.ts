@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import {CLIENTES} from './clientes.json';
 import { Cliente } from './cliente';
 import { Observable,of,map } from 'rxjs';
-import {HttpClient} from '@angular/common/http'
+import {HttpClient, HttpHeaders} from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
   private urlEndPoint: string = 'http://localhost:9090/api/clientes';
+  private urlEndPointCreated: string = 'http://localhost:9090/api/clientes/create';
+  private httpsHeaders = new HttpHeaders({'Content-Type': 'application/json'})
   constructor(private http: HttpClient) { }
 
   getClientes(): Observable<Cliente[]>{
@@ -20,5 +22,9 @@ export class ClienteService {
     return this.http.get(this.urlEndPoint).pipe(
       map( response => response as Cliente[])
     );
+  }
+
+  create(cliente: Cliente) : Observable<Cliente> {
+    return this.http.post<Cliente>(this.urlEndPointCreated, cliente, {headers: this.httpsHeaders})
   }
 }
