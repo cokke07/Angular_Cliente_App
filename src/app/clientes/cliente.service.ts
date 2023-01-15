@@ -27,4 +27,9 @@ export class ClienteService {
   create(cliente: Cliente) : Observable<Cliente> {
     return this.http.post<Cliente>(this.urlEndPointCreated, cliente, {headers: this.httpsHeaders})
   }
+
+  getCliente(id: any): Observable<Cliente>{
+    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`)
+  }
+
 }
